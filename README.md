@@ -138,7 +138,7 @@ python src/main.py
 
 ---
 
-## Limitations & Future Work
+## Limitations
 
 <!-- Add notes here -->
 **Extreme Class Imbalance:** Positive cancer cases represent only a tiny fraction (about 2%) of the dataset, requiring careful handling to prevent the model from ignoring rare positive cases.
@@ -146,6 +146,8 @@ python src/main.py
 **High Tissue Density:**  Extremely dense breast tissue (Category D) appears white on X-rays and can easily hide malignant tumors (which also appear white), leading to challenging false negatives.
 
 **Multi-View Dependencies:**  A single screening exam includes multiple image views per breast, meaning models must correctly aggregate predictions across images while avoiding data leakage between patients during cross-validation.
+---
+## Future Work
 
 **Ensembling:** Average predictions from several models and folds.
 

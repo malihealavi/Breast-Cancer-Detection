@@ -148,8 +148,11 @@ python src/main.py
 **Multi-View Dependencies:**  A single screening exam includes multiple image views per breast, meaning models must correctly aggregate predictions across images while avoiding data leakage between patients during cross-validation.
 
 **Ensembling:** Average predictions from several models and folds.
+
 **Cross-validation:** Train on all folds instead of one, so the model sees more data.
+
 **Clinical data:** Add age and other metadata as extra model input.
+
 **Threshold tuning:** Pick the best decision threshold on out-of-fold predictions.
 ---
 

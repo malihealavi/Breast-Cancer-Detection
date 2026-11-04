@@ -13,6 +13,8 @@ The model looks at **all available views of one breast** (e.g. CC and MLO) and p
 - **Imbalance handling**: patient-level negative downsampling each epoch, `pos_weight` loss, and logit adjustment back to real prevalence.
 - **Memory-friendly training**: mixed precision (fp16), gradient accumulation, and gradient checkpointing.
 - **Metrics**: probabilistic F1 / F2 and best-threshold search.
+- **Models** : EfficientNetV2-RW-M and Convnext_small
+- **Image Size (before and after Pr Resizing)** : 1024*512 and 2048*1024
 
 ---
 
@@ -112,7 +114,8 @@ python src/main.py
 
 | Setting | Value |
 |---|---|
-| Image size | 512 (crop 1024 x 512) |
+| Progressive Resizing | 10 epochs | 
+| Image size | first 10 epochs :  (1024 x 512) , rest of epochs : (2048 x 1024) |
 | Views per breast | 2 |
 | Negative : positive ratio | 5 : 1 |
 | Batch size / accumulation | 16 / 4 |
@@ -138,7 +141,16 @@ python src/main.py
 ## Limitations & Future Work
 
 <!-- Add notes here -->
+**Extreme Class Imbalance:** Positive cancer cases represent only a tiny fraction (about 2%) of the dataset, requiring careful handling to prevent the model from ignoring rare positive cases.
 
+**High Tissue Density:**  Extremely dense breast tissue (Category D) appears white on X-rays and can easily hide malignant tumors (which also appear white), leading to challenging false negatives.
+
+**Multi-View Dependencies:**  A single screening exam includes multiple image views per breast, meaning models must correctly aggregate predictions across images while avoiding data leakage between patients during cross-validation.
+
+**Ensembling:** Average predictions from several models and folds.
+**Cross-validation:** Train on all folds instead of one, so the model sees more data.
+**Clinical data:** Add age and other metadata as extra model input.
+**Threshold tuning:** Pick the best decision threshold on out-of-fold predictions.
 ---
 
 ## Acknowledgements
@@ -148,4 +160,4 @@ python src/main.py
 
 ## License
 
-Add your license here (e.g. MIT).
+MIT

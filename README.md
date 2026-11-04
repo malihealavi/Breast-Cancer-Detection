@@ -114,8 +114,8 @@ python src/main.py
 
 | Setting | Value |
 |---|---|
-| Progressive Resizing | 10 epochs | 
-| Image size | first 10 epochs :  (1024 x 512) , rest of epochs : (2048 x 1024) |
+| Progressive Resizing | 10 epochs: (1024 x 512) , rest of epochs : (2048 x 1024) | 
+| Image size | (1024 x 512) ,  (2048 x 1024) |
 | Views per breast | 2 |
 | Negative : positive ratio | 5 : 1 |
 | Batch size / accumulation | 16 / 4 |

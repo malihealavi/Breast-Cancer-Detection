@@ -1,9 +1,7 @@
 import warnings
 warnings.filterwarnings("ignore")
 import os
-from glob import glob
 import time
-from sklearn.metrics import precision_recall_curve
 import gc
 
 from tqdm import tqdm
@@ -34,7 +32,6 @@ from utils.utils import (
 )
 from configs import get_config
 cfg = get_config()
-
 
 # -----------------------------------------
 #                 Trainer

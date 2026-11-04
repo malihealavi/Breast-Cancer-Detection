@@ -29,7 +29,9 @@ def run(train_slice, val_slice, train_transforms, valid_transforms):
 
 if __name__ == '__main__':
 
-    train_df = pd.read_csv('/kaggle/input/datasets/malihealavi/breast-cancer-gpu/train_with_bbox.csv')
+    
+
+    train_df = pd.read_csv('./assets/data/train_with_bbox.csv')
     bbox_cols = ['bbox_x_min', 'bbox_y_min', 'bbox_x_max', 'bbox_y_max']
     train_df['bbox'] = train_df[bbox_cols].apply(
         lambda row: row.tolist() if row.notna().all() else None,

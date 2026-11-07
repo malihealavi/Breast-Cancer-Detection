@@ -134,20 +134,6 @@ python src/main.py
 
 > Data and weight paths currently point to Kaggle (`/kaggle/input/...`). Change them in `Trainer.py`, `ImageEncoder.py`, and the dataset files to run locally.
 
-## Key Settings (`configs.py`)
-
-| Setting | Value |
-|---|---|
-| Progressive Resizing | 10 epochs: (1024 x 512) , rest of epochs : (2048 x 1024) | 
-| Image size | (1024 x 512) ,  (2048 x 1024) |
-| Views per breast | 2 |
-| Negative : positive ratio | 5 : 1 |
-| Batch size / accumulation | 16 / 4 |
-| Optimizer | AdamW (backbone 1e-5, head 1e-4) |
-| Scheduler | 4 warm-up epochs + cosine |
-| Early stopping patience | 8 |
-| Precision | Mixed (fp16) |
-
 ---
 
 ## Results

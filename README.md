@@ -2,7 +2,7 @@
 
 Deep learning pipeline for breast cancer detection from screening mammograms, built for the [RSNA Screening Mammography Breast Cancer Detection](https://www.kaggle.com/competitions/rsna-breast-cancer-detection) challenge.
 
-The model looks at **all available views of one breast** (e.g. CC and MLO) and predicts one cancer score per patient and side.
+The model looks at **the two most popular views of each breast lateral** (e.g. CC and MLO) and predicts one cancer score per patient and side.
 
 ---
 

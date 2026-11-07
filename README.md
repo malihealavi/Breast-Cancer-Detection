@@ -35,8 +35,8 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    V1[View 1<br/>1 x 1024 x 512] --> E1[EfficientNetV2-RW-M<br/>shared weights]
-    V2[View 2<br/>1 x 1024 x 512] --> E2[EfficientNetV2-RW-M<br/>shared weights]
+    V1[View 1<br/>1 x 1024 x 512] --> E1[Image Encoder<br/>shared weights]
+    V2[View 2<br/>1 x 1024 x 512] --> E2[Image Encoder<br/>shared weights]
     E1 --> F1[Features]
     E2 --> F2[Features]
     T[View-type embedding] --> P
@@ -46,19 +46,43 @@ flowchart TB
     H --> O[Logit]
 ```
 
-## Training Strategy
+## Training Configuration
 
-```mermaid
-flowchart LR
-    A[Train split] --> B[Keep all cancer patients]
-    B --> C[Sample negative patients<br/>5 : 1 ratio, new every epoch]
-    C --> D[BCE loss with pos_weight]
-    D --> E[Train: AMP + grad accumulation]
-    E --> F[Validate with<br/>logit adjustment]
-    F --> G{F1 improved?}
-    G -- Yes --> H[Save best checkpoint]
-    G -- No --> I[Patience +1, early stop]
-```
+| Category | Setting | Value |
+|---|---|---|
+| **Data** | Input size | 1024 × 512 → 2048 × 1024 ROI crop, 1 channel |
+| | Views per breast | 2 (missing view is copied from the real one, and masked) |
+| | ROI padding | 10 px |
+| | Crop in training / validation | Random / center |
+| | Validation split | 1 fold of 20 (patient-level, stratified) |
+| **Progressive Resizing** | Resizing decision | After 12 epochs |
+| | Initial input size | 1024 × 512 |
+| | Initial LR | Backbone 1e-5, head 1e-4 |
+| | Resized input size | 2048 × 1024 |
+| | LR after resizing | Backbone 5e-6, head 5e-5 |
+| **Imbalance** | Negative : positive ratio | 5 : 1 (patient-level, new negatives every epoch) |
+| | Loss | BCE with `pos_weight` (negatives / positives) |
+| | Logit adjustment | Shifts predictions back to real cancer rate |
+| **Model** | Backbone | EfficientNetV2-RW-M and ConvNeXt-Small (both pretrained) |
+| | View fusion | View-type embedding + max pooling |
+| | Head | LayerNorm → Linear(256) → GELU → Dropout(0.3) → Linear(1) |
+| **Optimization** | Optimizer | AdamW, weight decay 1e-4 |
+| | Scheduler | 4 warm-up epochs + cosine decay (to 1e-8) |
+| | Epochs | 50 |
+| | Gradient clipping | 1.0 |
+| **Efficiency** | Mixed precision (AMP) | fp16 with GradScaler |
+| | Batch size / accumulation | 16 / 4 (effective batch 64) |
+| | Gradient checkpointing | On |
+| | BatchNorm | Frozen |
+| **Augmentation** | Horizontal flip | p = 0.5 |
+| | Shift / scale / rotate | 0.1 / 0.15 / 15°, p = 0.5 |
+| | Brightness / contrast | ±0.1, p = 0.5 |
+| | CLAHE | p = 0.4 |
+| | Gamma / Gaussian noise | p = 0.2 each |
+| **Evaluation** | Metrics | Probabilistic F1 and F2, best-threshold search |
+| | Early stopping | Patience 8 (not counted during warm-up) |
+| | Best model | Chosen by validation F1 |
+| | Seed | 42 |
 
 ---
 

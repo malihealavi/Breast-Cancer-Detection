@@ -113,7 +113,7 @@ flowchart LR
 - **Memory-friendly training**: mixed precision (fp16), gradient accumulation, and gradient checkpointing.
 - **Metrics**: probabilistic F1 / F2 and best-threshold search.
 - **Models** : EfficientNetV2-RW-M and Convnext_small
-- **Image Size (before and after Pr Resizing)** : 1024*512 and 2048*1024
+- **Image Size (before and after Pr Resizing)** : 1024 × 512 and 2048 × 1024
 
 ## 🤖 Model
 

@@ -49,22 +49,49 @@ The model looks at **the two most popular views of each breast lateral** (e.g. C
 
 </div>
 
-
 ---
 
-## 📌 Highlights
+## ⚠️ Main Challenges
 
-- **Breast ROI cropping**: removes background and markers, so the model sees more tissue detail.
-- **Multi-view input**: up to 2 views per breast, combined with a view-type embedding and max pooling.
-- **Imbalance handling**: patient-level negative downsampling each epoch, `pos_weight` loss, and logit adjustment back to real prevalence.
-- **Memory-friendly training**: mixed precision (fp16), gradient accumulation, and gradient checkpointing.
-- **Metrics**: probabilistic F1 / F2 and best-threshold search.
-- **Models** : EfficientNetV2-RW-M and Convnext_small
-- **Image Size (before and after Pr Resizing)** : 1024*512 and 2048*1024
+<!-- Add notes here -->
+**Extreme Class Imbalance:** Positive cancer cases represent only a tiny fraction (about 2%) of the dataset, requiring careful handling to prevent the model from ignoring rare positive cases.
+
+**High Tissue Density:**  Extremely dense breast tissue (Category D) appears white on X-rays and can easily hide malignant tumors (which also appear white), leading to challenging false negatives.
+
+**Multi-View Dependencies:**  A single screening exam includes multiple image views per breast, meaning models must correctly aggregate predictions across images while avoiding data leakage between patients during cross-validation.
 
 ---
 ## 💡 key findings 
 
+**Severe class imbalance**
+
+Only 486 of 11,913 patients (~4%) have cancer. At image level it is ~2%.
+Accuracy is misleading. Use class weights or sampling, and metrics like AUC and F1.
+
+**Two views matter most**
+
+CC and MLO make up almost all images (~27,000 each). ML, LM, AT and LMO are very rare.
+Left and right breasts are balanced, so there is no side bias.
+
+**Age is a weak signal**
+
+Cancer cases are older (peak ~65–70) than non-cancer (~58).
+The groups overlap a lot, so age alone cannot predict cancer.
+
+**Density, implant, view and side show no special link**
+
+Cancer is most common in density B and C, but this just matches the overall data.
+Implants are rare (~1,500 images) and show no link to cancer. They may still be harder for the model because they look different.
+
+**Data leakage risk**
+
+Invasive (0.84), biopsy (0.61) and BIRADS are strongly linked to cancer, but they are only known after diagnosis.
+so I do not use them as inputs.
+
+**The model must learn from the images**
+
+Age, side, view and implant have almost no correlation with cancer.
+This is why the pipeline is image-based.
 
 ---
 ## 🧰 Pipeline
@@ -79,6 +106,14 @@ flowchart LR
     F --> G[Model]
     G --> H[Cancer probability<br/>per breast]
 ```
+
+- **Breast ROI cropping**: removes background and markers, so the model sees more tissue detail.
+- **Multi-view input**: up to 2 views per breast, combined with a view-type embedding and max pooling.
+- **Imbalance handling**: patient-level negative downsampling each epoch, `pos_weight` loss, and logit adjustment back to real prevalence.
+- **Memory-friendly training**: mixed precision (fp16), gradient accumulation, and gradient checkpointing.
+- **Metrics**: probabilistic F1 / F2 and best-threshold search.
+- **Models** : EfficientNetV2-RW-M and Convnext_small
+- **Image Size (before and after Pr Resizing)** : 1024*512 and 2048*1024
 
 ## 🤖 Model
 
@@ -197,16 +232,7 @@ python src/main.py
 
 ---
 
-## ⚠️ Limitations
 
-<!-- Add notes here -->
-**Extreme Class Imbalance:** Positive cancer cases represent only a tiny fraction (about 2%) of the dataset, requiring careful handling to prevent the model from ignoring rare positive cases.
-
-**High Tissue Density:**  Extremely dense breast tissue (Category D) appears white on X-rays and can easily hide malignant tumors (which also appear white), leading to challenging false negatives.
-
-**Multi-View Dependencies:**  A single screening exam includes multiple image views per breast, meaning models must correctly aggregate predictions across images while avoiding data leakage between patients during cross-validation.
-
----
 ## 🚀 Future Work
 
 **Ensembling:** Average predictions from several models and folds.

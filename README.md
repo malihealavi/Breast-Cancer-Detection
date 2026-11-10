@@ -31,7 +31,7 @@ The model looks at **the two most popular views of each breast lateral** (e.g. C
       <sub>Correlation Heatmap of Feature</sub>
     </td>
     <td align="center">
-      <img src="./assets/images/output3.png" width="400"><br>
+      <img src="./assets/images/output3.png" height="300"><br>
       <sub>an image Sample</sub>
     </td>
   </tr>

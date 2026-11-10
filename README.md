@@ -1,12 +1,58 @@
-# Mammo: Multi-View Breast Cancer Detection
+#  🎗️ Mammo: Multi-View Breast Cancer Detection
 
 Deep learning pipeline for breast cancer detection from screening mammograms, built for the [RSNA Screening Mammography Breast Cancer Detection](https://www.kaggle.com/competitions/rsna-breast-cancer-detection) challenge.
 
 The model looks at **the two most popular views of each breast lateral** (e.g. CC and MLO) and predicts one cancer score per patient and side.
 
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-Deep%20Learning-ee4c2c?logo=pytorch&logoColor=white)
+![timm](https://img.shields.io/badge/timm-EfficientNetV2-green)
+![Albumentations](https://img.shields.io/badge/Albumentations-Augmentation-purple)
+![scikit--learn](https://img.shields.io/badge/scikit--learn-Metrics-f7931e?logo=scikitlearn&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-Data-150458?logo=pandas&logoColor=white)
+![DICOM](https://img.shields.io/badge/DICOM-Mammography-lightgrey)
+![Kaggle](https://img.shields.io/badge/Kaggle-RSNA%20Breast%20Cancer-20beff?logo=kaggle&logoColor=white)
+![Status](https://img.shields.io/badge/Status-In%20Progress-yellow)
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="./assets/images/output.png" width="400"><br>
+      <sub>Distribution of several features</sub>
+    </td>
+    <td align="center">
+      <img src="./assets/images/output1.png" width="400"><br>
+      <sub>Age Distribution by Cnacer Status</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="./assets/images/output2.png" width="400"><br>
+      <sub>Correlation Heatmap of Feature</sub>
+    </td>
+    <td align="center">
+      <img src="./assets/images/output3.png" width="400"><br>
+      <sub>an image Sample</sub>
+    </td>
+  </tr>
+  <!-- <tr>
+    <td align="center">
+      <img src="assets/images/SHAP.png" width="400"><br>
+      <sub>CatBoost SHAP Analysis</sub>
+    </td>
+    <td align="center">
+      <img src="assets/images/LIME.png" width="400"><br>
+      <sub>XGBoost lime Analysis</sub>
+    </td>
+  </tr> -->
+</table>
+
+</div>
+
+
 ---
 
-## Highlights
+## 📌 Highlights
 
 - **Breast ROI cropping**: removes background and markers, so the model sees more tissue detail.
 - **Multi-view input**: up to 2 views per breast, combined with a view-type embedding and max pooling.
@@ -17,8 +63,11 @@ The model looks at **the two most popular views of each breast lateral** (e.g. C
 - **Image Size (before and after Pr Resizing)** : 1024*512 and 2048*1024
 
 ---
+## 💡 key findings 
 
-## Pipeline
+
+---
+## 🧰 Pipeline
 
 ```mermaid
 flowchart LR
@@ -31,7 +80,7 @@ flowchart LR
     G --> H[Cancer probability<br/>per breast]
 ```
 
-## Model
+## 🤖 Model
 
 ```mermaid
 flowchart TB
@@ -46,7 +95,7 @@ flowchart TB
     H --> O[Logit]
 ```
 
-## Training Configuration
+## 🛠️ Training Configuration
 
 | Category | Setting | Value |
 |---|---|---|
@@ -86,7 +135,7 @@ flowchart TB
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 .
@@ -111,7 +160,7 @@ flowchart TB
 
 ---
 
-## Getting Started
+## ▶️ Getting Started
 
 **1. Install**
 
@@ -136,19 +185,19 @@ python src/main.py
 
 ---
 
-## Results
+## 🎯 Results
 
 <!-- Add validation metrics, comparison tables, and plots here -->
 
 ---
 
-## Explainability (XAI)
+## 🔍 Explainability (XAI)
 
 <!-- Add Grad-CAM / saliency examples here -->
 
 ---
 
-## Limitations
+## ⚠️ Limitations
 
 <!-- Add notes here -->
 **Extreme Class Imbalance:** Positive cancer cases represent only a tiny fraction (about 2%) of the dataset, requiring careful handling to prevent the model from ignoring rare positive cases.
@@ -158,7 +207,7 @@ python src/main.py
 **Multi-View Dependencies:**  A single screening exam includes multiple image views per breast, meaning models must correctly aggregate predictions across images while avoiding data leakage between patients during cross-validation.
 
 ---
-## Future Work
+## 🚀 Future Work
 
 **Ensembling:** Average predictions from several models and folds.
 
@@ -170,7 +219,7 @@ python src/main.py
 
 ---
 
-## Acknowledgements
+## ℹ️ Acknowledgements
 
 - Data: [RSNA Screening Mammography Breast Cancer Detection](https://www.kaggle.com/competitions/rsna-breast-cancer-detection)
 - Backbone: [timm](https://github.com/huggingface/pytorch-image-models)

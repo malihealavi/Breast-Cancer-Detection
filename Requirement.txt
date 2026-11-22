@@ -1,0 +1,14 @@
+torch
+torchvision
+timm
+albumentations
+opencv-python-headless
+numpy
+pandas
+scikit-learn
+matplotlib
+tqdm
+pydicom
+dicomsdl
+pylibjpeg
+pylibjpeg-libjpeg

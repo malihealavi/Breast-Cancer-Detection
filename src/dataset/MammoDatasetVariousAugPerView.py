@@ -3,11 +3,11 @@ from torch.utils.data import Dataset, DataLoader
 import os 
 import pandas as pd
 import numpy as np
+import pydicom
 try:
     import dicomsdl
 except ImportError:
     dicomsdl = None
-    import pydicom
 import albumentations as A
 
 

@@ -20,7 +20,7 @@ class DataPaths:
     
 @dataclass
 class GlobalVar:
-    IMG_SIZE : int= 512 
+    IMG_SIZE : int= 1024 
     MAX_IMAGES: int = 2 # Number of views per laterlaity per patient
     NEG_TO_POS_RATIO : int= 5
     N_SHARDS : int = 3
@@ -46,6 +46,7 @@ class TrainConfig:
     USE_AMP = True                 # True = mixed precision (faster, less memory)
     AMP_DTYPE = torch.float16       # T4 / P100 / V100: float16 (uses GradScaler)
     NUM_WORKERS: int = 4   
+    MODEL_NAME = 'efficientnetv2_rw_m'
 
 
 @dataclass

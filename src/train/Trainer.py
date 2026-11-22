@@ -49,7 +49,7 @@ class GPUMammoTrainer():
         self.train_transforms = train_transforms
         self.valid_transforms = valid_transforms
         # 2. Instantiate Model and move to GPU
-        self.model = MammoModelHybrid(model_name='efficientnetv2_rw_m')
+        self.model = MammoModelHybrid(model_name=cfg.train.MODEL_NAME)
         self.model.to(self.device)
          
         if cfg.train.USE_GRAD_CHECKPOINTING:
@@ -68,9 +68,9 @@ class GPUMammoTrainer():
         head_params = base.aggregator.parameters()
 
         self.optimizer = optim.AdamW([
-            {'params': backbone_params, 'lr': 1e-5},   # small, protect pretrained features
-            {'params': head_params,     'lr': 1e-4},   # needs to learn from scratch
-        ], weight_decay=1e-4)
+            {'params': backbone_params, 'lr': cfg.train.LR_BB},   # small, protect pretrained features
+            {'params': head_params,     'lr': cfg.train.LR_HEAD},   # needs to learn from scratch
+        ], weight_decay=cfg.train.WEIGHT_DECAY)
 
         #------------- Scheduler
 
@@ -149,8 +149,7 @@ class GPUMammoTrainer():
             f"best_f1={self.best_f1:.4f}, patience={self.patience}, "
             f"resuming at epoch {self.start_epoch}"
         )
-        global IMG_SIZE
-        if IMG_SIZE == 1024 and self.pr_resize == True:   # new, bigger resolution run
+        if cfg.glob.IMG_SIZE == 1024 and self.pr_resize == True:   # new, bigger resolution run
             base = unwrap(self.model)
         
             # 1. Reset the "best" values (old size scores are not comparable)
@@ -179,7 +178,7 @@ class GPUMammoTrainer():
             f"Resumed from {path}: last completed epoch={checkpoint['epoch']},\n "
             f"best_f1={self.best_f1:.4f}, patience={self.patience},\n "
             f"resuming at epoch {self.start_epoch}\n"
-            f"img size {IMG_SIZE}\n"
+            f"img size {cfg.glob.IMG_SIZE}\n"
         )
 
     def train_one_epoch(self, epoch):

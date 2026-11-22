@@ -223,14 +223,15 @@ python src/main.py
 ## 🎯 Results
 
 <!-- Add validation metrics, comparison tables, and plots here -->
+Executing each round of training takes about 2 on kaggle free tire with weekly 30 hours limitation of GPU usage. (each down-sampled epoch took about 1:30 hours to be completed ) So I couldn't execute parallel setups and just panda-sitted each setup one by one. Due to highly class imbalances , I found reaching to a F1 accuracy higher than 0.5 would be challenging. In the first, I tried to train the model on TPU using torch XLA but due to some reasons It didn't converged at all. after moving to GPU the models reached to these results:
+
+| Model | F1 | epochs |
+|---|---|---|
+| EfficientNetV2-RW-M | 0.33 | 41 |
+| Convnext_Small | 0.32 | 50 |
 
 ---
 
-## 🔍 Explainability (XAI)
-
-<!-- Add Grad-CAM / saliency examples here -->
-
----
 
 
 ## 🚀 Future Work
@@ -239,10 +240,7 @@ python src/main.py
 
 **Cross-validation:** Train on all folds instead of one, so the model sees more data.
 
-**Clinical data:** Add age and other metadata as extra model input.
-
-**Threshold tuning:** Pick the best decision threshold on out-of-fold predictions.
-
+**Object Detection:** Use more advanced methods for detecting ROI bbox 
 ---
 
 ## ℹ️ Acknowledgements

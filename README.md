@@ -241,6 +241,7 @@ Executing each round of training takes about 2 on kaggle free tire with weekly 3
 **Cross-validation:** Train on all folds instead of one, so the model sees more data.
 
 **Object Detection:** Use more advanced methods for detecting ROI bbox 
+
 ---
 
 ## ℹ️ Acknowledgements

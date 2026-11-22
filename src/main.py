@@ -24,7 +24,7 @@ def run(train_slice, val_slice, train_transforms, valid_transforms):
         trainer.training()
     except Exception:
         import traceback
-        with open("/kaggle/working/crash.log", "w") as f:
+        with open("./assets/log/crash.log", "w") as f:
             traceback.print_exc(file=f)
         raise
 
@@ -38,7 +38,6 @@ if __name__ == '__main__':
         lambda row: row.tolist() if row.notna().all() else None,
         axis=1
     )
-    train_df.to_csv('/kaggle/working/train_with_bbox.csv', index=False)
     train_df['patient_id'] = train_df['patient_id'].astype(str)
     train_df['image_id'] = train_df['image_id'].astype(str)
     print(f"length of original df : {len(train_df)}")

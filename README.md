@@ -35,16 +35,16 @@ The model looks at **the two most popular views of each breast lateral** (e.g. C
       <sub>an image Sample</sub>
     </td>
   </tr>
-  <!-- <tr>
+  <tr>
     <td align="center">
-      <img src="assets/images/SHAP.png" width="400"><br>
-      <sub>CatBoost SHAP Analysis</sub>
+      <img src="assets/images/download.png" width="400"><br>
+      <sub>Eval Trend</sub>
     </td>
     <td align="center">
       <img src="assets/images/LIME.png" width="400"><br>
       <sub>XGBoost lime Analysis</sub>
     </td>
-  </tr> -->
+  </tr>
 </table>
 
 </div>
